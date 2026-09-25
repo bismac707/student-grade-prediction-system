@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Grade Prediction</title>
+
+    <style>
+
+        /* ---------- GENERAL STYLING ---------- */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #eef3f8;
+            min-height: 100vh;
+            padding: 30px 15px;
+        }
+
+
+        /* ---------- MAIN CONTAINER ---------- */
+
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 700px;
+            margin: auto;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+
+        /* ---------- HEADING ---------- */
+
+        h1 {
+            text-align: center;
+            color: #17365d;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+
+        /* ---------- STUDENT DETAILS ---------- */
+
+        .student-details {
+            margin-bottom: 25px;
+        }
+
+        .student-details h2 {
+            color: #17365d;
+            margin-bottom: 15px;
+            font-size: 21px;
+        }
+
+        .field {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3478c8;
+        }
+
+
+        /* ---------- SUBJECT SECTION ---------- */
+
+        .subjects-section h2 {
+            color: #17365d;
+            margin-bottom: 20px;
+            font-size: 21px;
+        }
+
+        .subject {
+            margin-bottom: 15px;
+        }
+
+
+        /* ---------- BUTTON ---------- */
+
+        button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #17365d;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #24548c;
+        }
+
+
+        /* ---------- RESULT SECTION ---------- */
+
+        .result {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            background: #f2f7fc;
+            border-radius: 12px;
+        }
+
+        .result h2 {
+            text-align: center;
+            color: #17365d;
+            margin-bottom: 20px;
+        }
+
+        .student-result {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        .result p {
+            margin: 10px 0;
+            font-size: 17px;
+        }
+
+        .total {
+            font-weight: bold;
+        }
+
+        .average {
+            font-weight: bold;
+        }
+
+        .grade {
+            text-align: center;
+            font-size: 35px !important;
+            font-weight: bold;
+            color: #17365d;
+            margin: 18px 0 !important;
+        }
+
+        .status {
+            text-align: center;
+            font-size: 22px !important;
+            font-weight: bold;
+        }
+
+        .message {
+            text-align: center;
+            color: #555;
+        }
+
+
+        /* ---------- RESPONSIVE DESIGN ---------- */
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 25px 20px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .grade {
+                font-size: 30px !important;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- ---------- TITLE ---------- -->
+
+        <h1>Student Grade Prediction</h1>
+
+        <p class="description">
+            Enter the student's details and marks to calculate
+            total marks, average, grade and result.
+        </p>
+
+
+        <!-- ---------- STUDENT DETAILS ---------- -->
+
+        <div class="student-details">
+
+            <h2>Student Details</h2>
+
+
+            <div class="field">
+
+                <label for="studentName">
+                    Student Name
+                </label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter student name">
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="className">
+                    Class
+                </label>
+
+                <input
+                    type="text"
+                    id="className"
+                    placeholder="Example: Class 10">
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="rollNumber">
+                    Roll Number
+                </label>
+
+                <input
+                    type="text"
+                    id="rollNumber"
+                    placeholder="Enter roll number">
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ---------- SUBJECTS ---------- -->
+
+        <div class="subjects-section">
+
+            <h2>Enter Marks</h2>
+
+
+            <!-- 1. Mathematics -->
+
+            <div class="subject">
+
+                <label for="mathematics">
+                    1. Mathematics
+                </label>
+
+                <input
+                    type="number"
+                    id="mathematics"
+                    min="0"
+                    max="100"
+                    placeholder="Enter marks out of 100">
+
+            </div>
+
+
+            <!-- 2. Physics -->
+
+            <div class="subject">
+
+                <label for="physics">
+                    2. Physics
+                </label>
+
+                <input
+                    type="number"
+                    id="physics"
+                    min="0"
+                    max="100"
+                    placeholder="Enter marks out of 100">
+
+            </div>
+
+
+            <!-- 3. Chemistry -->
+
+            <div class="subject">
+
+                <label for="chemistry">
+                    3. Chemistry
+                </label>
+
+                <input
+                    type="number"
+                    id="chemistry"
+                    min="0"
+                    max="100"
+                    placeholder="Enter marks out of 100">
+
+            </div>
+
+
+            <!-- 4. Biology -->
+
+            <div class="subject">
+
+                <label for="biology">
+                    4. Biology
+                </label>
+
+                <input
+                    type="number"
+                    id="biology"
+                    min="0"
+                    max="100"
+                    placeholder="Enter marks out of 100">
+
+            </div>
+
+
+            <!-- 5. English -->
+
+            <div class="subject">
+
+                <label for="english">
+                    5. English
+                </label>
+
+                <input
+                    type="number"
+                    id="english"
+                    min="0"
+                    max="100"
+                    placeholder="Enter marks out of 100">
+
+            </div>
+
+
+            <!-- 6. Arabic -->
+
+            <div class="subject">
+
+                <label for="arabic">
+                    6. Arabic
+                </label>
+
+                <input
+                    type="number"
+                    id="arabic"
+                    min="0"
+                    max="100"
+                    placeholder="Enter marks out of 100">
+
+            </div>
+
+
+            <!-- 7. Hindi -->
+
+            <div class="subject">
+
+                <label for="hindi">
+                    7. Hindi
+                </label>
+
+                <input
+                    type="number"
+                    id="hindi"
+                    min="0"
+                    max="100"
+                    placeholder="Enter marks out of 100">
+
+            </div>
+
+
+            <!-- 8. Malayalam -->
+
+            <div class="subject">
+
+                <label for="malayalam">
+                    8. Malayalam
+                </label>
+
+                <input
+                    type="number"
+                    id="malayalam"
+                    min="0"
+                    max="100"
+                    placeholder="Enter marks out of 100">
+
+            </div>
+
+
+            <!-- 9. Information Technology -->
+
+            <div class="subject">
+
+                <label for="it">
+                    9. Information Technology (IT)
+                </label>
+
+                <input
+                    type="number"
+                    id="it"
+                    min="0"
+                    max="100"
+                    placeholder="Enter marks out of 100">
+
+            </div>
+
+
+            <!-- 10. Social Science -->
+
+            <div class="subject">
+
+                <label for="socialScience">
+                    10. Social Science
+                </label>
+
+                <input
+                    type="number"
+                    id="socialScience"
+                    min="0"
+                    max="100"
+                    placeholder="Enter marks out of 100">
+
+            </div>
+
+
+            <!-- ---------- PREDICT BUTTON ---------- -->
+
+            <button onclick="predictGrade()">
+                Predict Grade
+            </button>
+
+        </div>
+
+
+
+        <!-- ---------- RESULT ---------- -->
+
+        <div class="result" id="result">
+
+            <h2>Prediction Result</h2>
+
+
+            <div class="student-result">
+
+                <p>
+                    <strong>Name:</strong>
+                    <span id="resultName"></span>
+                </p>
+
+                <p>
+                    <strong>Class:</strong>
+                    <span id="resultClass"></span>
+                </p>
+
+                <p>
+                    <strong>Roll Number:</strong>
+                    <span id="resultRoll"></span>
+                </p>
+
+            </div>
+
+
+            <p class="total">
+                Total Marks:
+                <span id="total"></span> / 1000
+            </p>
+
+
+            <p class="average">
+                Average:
+                <span id="average"></span>%
+            </p>
+
+
+            <p class="grade" id="grade">
+            </p>
+
+
+            <p class="status" id="status">
+            </p>
+
+
+            <p class="message" id="message">
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ---------- JAVASCRIPT ---------- -->
+
+    <script>
+
+
+        function predictGrade() {
+
+
+            /* --------------------------------
+               GET STUDENT DETAILS
+            -------------------------------- */
+
+            const studentName =
+                document.getElementById("studentName").value.trim();
+
+            const className =
+                document.getElementById("className").value.trim();
+
+            const rollNumber =
+                document.getElementById("rollNumber").value.trim();
+
+
+            /* --------------------------------
+               CHECK STUDENT DETAILS
+            -------------------------------- */
+
+            if (studentName === "") {
+
+                alert("Please enter the student's name.");
+
+                document.getElementById("studentName").focus();
+
+                return;
+            }
+
+
+            if (className === "") {
+
+                alert("Please enter the class.");
+
+                document.getElementById("className").focus();
+
+                return;
+            }
+
+
+            if (rollNumber === "") {
+
+                alert("Please enter the roll number.");
+
+                document.getElementById("rollNumber").focus();
+
+                return;
+            }
+
+
+
+            /* --------------------------------
+               LIST OF ALL 10 SUBJECTS
+            -------------------------------- */
+
+            const subjectIds = [
+
+                "mathematics",
+                "physics",
+                "chemistry",
+                "biology",
+                "english",
+                "arabic",
+                "hindi",
+                "malayalam",
+                "it",
+                "socialScience"
+
+            ];
+
+
+
+            /* --------------------------------
+               STORE MARKS
+            -------------------------------- */
+
+            let marks = [];
+
+
+
+            /* --------------------------------
+               VALIDATE ALL SUBJECT MARKS
+            -------------------------------- */
+
+            for (let id of subjectIds) {
+
+
+                const input =
+                    document.getElementById(id);
+
+
+                const value =
+                    input.value.trim();
+
+
+                /* Check for empty input */
+
+                if (value === "") {
+
+                    alert(
+                        "Please enter marks for all 10 subjects."
+                    );
+
+                    input.focus();
+
+                    return;
+                }
+
+
+                const mark = Number(value);
+
+
+                /* Check valid number */
+
+                if (!Number.isFinite(mark)) {
+
+                    alert(
+                        "Please enter a valid number."
+                    );
+
+                    input.focus();
+
+                    return;
+                }
+
+
+                /* Check mark range */
+
+                if (mark < 0 || mark > 100) {
+
+                    alert(
+                        "Marks must be between 0 and 100."
+                    );
+
+                    input.focus();
+
+                    return;
+                }
+
+
+                marks.push(mark);
+
+            }
+
+
+
+            /* --------------------------------
+               CALCULATE TOTAL
+            -------------------------------- */
+
+            let total = 0;
+
+
+            for (let mark of marks) {
+
+                total += mark;
+
+            }
+
+
+
+            /* --------------------------------
+               CALCULATE AVERAGE
+            -------------------------------- */
+
+            const average =
+                total / marks.length;
+
+
+
+            /* --------------------------------
+               DETERMINE GRADE
+            -------------------------------- */
+
+            let grade;
+            let message;
+
+
+            if (average >= 90) {
+
+                grade = "A+";
+
+                message =
+                    "Excellent performance! Keep up the great work.";
+
+            }
+
+            else if (average >= 80) {
+
+                grade = "A";
+
+                message =
+                    "Very good performance! Keep working hard.";
+
+            }
+
+            else if (average >= 70) {
+
+                grade = "B";
+
+                message =
+                    "Good performance! There is still room to improve.";
+
+            }
+
+            else if (average >= 60) {
+
+                grade = "C";
+
+                message =
+                    "Fair performance. Keep practicing and improving.";
+
+            }
+
+            else if (average >= 50) {
+
+                grade = "D";
+
+                message =
+                    "You have passed. More practice can improve your result.";
+
+            }
+
+            else {
+
+                grade = "F";
+
+                message =
+                    "Needs improvement. Keep practicing and don't give up.";
+
+            }
+
+
+
+            /* --------------------------------
+               PASS / FAIL
+            -------------------------------- */
+
+            let status;
+
+
+            if (average >= 50) {
+
+                status = "PASS";
+
+            }
+
+            else {
+
+                status = "FAIL";
+
+            }
+
+
+
+            /* --------------------------------
+               DISPLAY STUDENT DETAILS
+            -------------------------------- */
+
+            document.getElementById("resultName")
+                .textContent = studentName;
+
+
+            document.getElementById("resultClass")
+                .textContent = className;
+
+
+            document.getElementById("resultRoll")
+                .textContent = rollNumber;
+
+
+
+            /* --------------------------------
+               DISPLAY TOTAL
+            -------------------------------- */
+
+            document.getElementById("total")
+                .textContent = total.toFixed(2);
+
+
+
+            /* --------------------------------
+               DISPLAY AVERAGE
+            -------------------------------- */
+
+            document.getElementById("average")
+                .textContent = average.toFixed(2);
+
+
+
+            /* --------------------------------
+               DISPLAY GRADE
+            -------------------------------- */
+
+            document.getElementById("grade")
+                .textContent = "Grade: " + grade;
+
+
+
+            /* --------------------------------
+               DISPLAY PASS / FAIL
+            -------------------------------- */
+
+            document.getElementById("status")
+                .textContent = "Result: " + status;
+
+
+
+            /* --------------------------------
+               DISPLAY MESSAGE
+            -------------------------------- */
+
+            document.getElementById("message")
+                .textContent = message;
+
+
+
+            /* --------------------------------
+               SHOW RESULT SECTION
+            -------------------------------- */
+
+            document.getElementById("result")
+                .style.display = "block";
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
